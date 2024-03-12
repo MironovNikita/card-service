@@ -1,0 +1,126 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Спецификация CardService OpenAPI",
+    "description": "### **CardService** - проект, предоставляющий возможность пользователям регистрироваться, обновлять свои данные, открывать и закрывать банковские карты, а также получать уведомления о любых изменениях с их данными на электронную почту, указанную при регистрации.\n\nДанная спецификация относится к модулю уведомлений приложения, к которому обращается основной модуль - **notification-service**.",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8081",
+      "description": "Notification Service - предоставляет возможность уведомлять клиентов по электронной почте"
+    }
+  ],
+  "tags": [
+    {
+      "description": "API для отправки email-сообщений",
+      "name": "Email API"
+    }
+  ],
+  "paths": {
+    "/email/send/{email}": {
+      "post": {
+        "summary": "Отправка email-сообщения",
+        "tags": [
+          "Email API"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email",
+            "description": "Email-адрес получателя",
+            "required": true,
+            "example": "test123@mail.ru",
+            "schema": {
+              "type": "string",
+              "format": "email"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailStructure"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Письмо успешно отправлено",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EmailStructure": {
+        "type": "object",
+        "description": "Отправляемое письмо",
+        "properties": {
+          "subject": {
+            "type": "string",
+            "description": "Тема письма"
+          },
+          "message": {
+            "type": "string",
+            "description": "Текст сообщения"
+          }
+        },
+        "required": [
+          "subject",
+          "message"
+        ]
+      },
+      "ApiError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Сообщение об ошибке"
+          },
+          "status": {
+            "type": "string",
+            "description": "Код статуса HTTP",
+            "example": "BAD REQUEST",
+            "enum": [
+              "BAD REQUEST"
+            ]
+          },
+          "time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Временная метка ошибки",
+            "example": "2024-03-11T15:52:38.2953307"
+          }
+        },
+        "required": [
+          "message",
+          "status",
+          "time"
+        ],
+        "description": "Ошибка, возникающая при отправке сообщения на некорректный email-адрес"
+      }
+    }
+  }
+}

@@ -1,0 +1,3774 @@
+{
+	"info": {
+		"_postman_id": "ee60ed65-a088-420e-a411-c47f4ca47d30",
+		"name": "!Bank Card API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26253290"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Создание 1го пользователя",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при создании пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'id' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData.id, '\"id\" должен быть 1').to.eql(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'surname' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('surname');\r",
+									"    pm.expect(jsonData.surname, '\"surname\" должна быть \"Иванов\"').to.eql('Иванов');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'name' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('name');\r",
+									"    pm.expect(jsonData.name, '\"name\" должно быть \"Иван\"').to.eql('Иван');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'patronymic' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('patronymic');\r",
+									"    pm.expect(jsonData.patronymic, '\"patronymic\" должно быть \"Иванович\"').to.eql('Иванович');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'email' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('email');\r",
+									"    pm.expect(jsonData.email, '\"email\" должно быть \"ivanov1@yandex.com\"').to.eql('ivanov1@yandex.com');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'birthday' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('birthday');\r",
+									"    pm.expect(jsonData.birthday, '\"birthday\" должен быть \"1990-08-10\"').to.eql('1990-08-10');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'phone' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('phone');\r",
+									"    pm.expect(jsonData.phone, '\"phone\" должен быть \"79523639558\"').to.eql('79523639558');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"surname\": \"Иванов\",\r\n  \"name\": \"Иван\",\r\n  \"patronymic\": \"Иванович\",\r\n  \"email\": \"ivanov1@yandex.com\",\r\n  \"birthday\": \"1990-08-10\",\r\n  \"phone\": \"79523639558\",\r\n  \"password\": \"password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание пользователя с отсутствующими данными (имя, дата рождения)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'error' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error');\r",
+									"    pm.expect(jsonData.error, '\"error\" должно быть \"Bad Request\"').to.eql(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Ошибка валидации данных\"').to.eql('Ошибка валидации данных');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия массива ошибок 'errors'\"),function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('errors');\r",
+									"    pm.expect(jsonData.errors).to.be.an('array');\r",
+									"    pm.expect(jsonData.errors.length).to.be.above(0);\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Проверка содержимого массива ошибок 'errors'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var expectedErrors = [\r",
+									"        {\r",
+									"            \"field\": \"birthday\",\r",
+									"            \"message\": \"Дата рождения клиента обязательна\"\r",
+									"        },\r",
+									"        {\r",
+									"            \"field\": \"name\",\r",
+									"            \"message\": \"Имя должно быть заполнено\"\r",
+									"        }\r",
+									"    ];\r",
+									"    pm.expect(jsonData.errors).to.be.an('array').that.deep.includes.members(expectedErrors);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должен быть 400').to.eql(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'timestamp у ошибки'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('timestamp');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"surname\": \"Иванов\",\r\n  \"patronymic\": \"Иванович\",\r\n  \"email\": \"open123@yandex.com\",\r\n  \"phone\": \"89515266226\",\r\n  \"password\": \"password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание пользователя с некорректным именем и номером телефона",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'error' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error');\r",
+									"    pm.expect(jsonData.error, '\"error\" должно быть \"Bad Request\"').to.eql(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Ошибка валидации данных\"').to.eql('Ошибка валидации данных');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия массива ошибок 'errors'\"),function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('errors');\r",
+									"    pm.expect(jsonData.errors).to.be.an('array');\r",
+									"    pm.expect(jsonData.errors.length).to.be.above(0);\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Проверка содержимого массива ошибок 'errors'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var expectedErrors = [\r",
+									"        {\r",
+									"            \"field\": \"name\",\r",
+									"            \"message\": \"Имя должно быть заполнено\"\r",
+									"        },\r",
+									"        {\r",
+									"            \"field\": \"phone\",\r",
+									"            \"message\": \"Телефонный номер должен состоять из 11 цифр\"\r",
+									"        }\r",
+									"    ];\r",
+									"    pm.expect(jsonData.errors).to.be.an('array').that.deep.includes.members(expectedErrors);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должен быть 400').to.eql(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'timestamp у ошибки'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('timestamp');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"surname\": \"Иванов\",\r\n  \"name\": \"\",\r\n  \"patronymic\": \"Иванович\",\r\n  \"email\": \"open123@yandex.com\",\r\n  \"birthday\": \"1999-03-22\",\r\n  \"phone\": \"8951\",\r\n  \"password\": \"password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание пользователя с полностью некорректными данными",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'error' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error');\r",
+									"    pm.expect(jsonData.error, '\"error\" должно быть \"Bad Request\"').to.eql(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Ошибка валидации данных\"').to.eql('Ошибка валидации данных');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия массива ошибок 'errors'\"),function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('errors');\r",
+									"    pm.expect(jsonData.errors).to.be.an('array');\r",
+									"    pm.expect(jsonData.errors.length).to.be.above(0);\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Проверка содержимого массива ошибок 'errors'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var expectedErrors = [\r",
+									"        {\r",
+									"            \"field\": \"surname\",\r",
+									"            \"message\": \"Фамилия должна быть заполнена\"\r",
+									"        },\r",
+									"        {\r",
+									"            \"field\": \"name\",\r",
+									"            \"message\": \"Имя должно быть заполнено\"\r",
+									"        },\r",
+									"        {\r",
+									"            \"field\": \"patronymic\",\r",
+									"            \"message\": \"Отчество должно быть заполнено\"\r",
+									"        },\r",
+									"        {\r",
+									"            \"field\": \"email\",\r",
+									"            \"message\": \"Размер email должен быть от 5 до 50 символов\"\r",
+									"        },\r",
+									"        {\r",
+									"            \"field\": \"email\",\r",
+									"            \"message\": \"Email пользователя не может быть пустым\"\r",
+									"        },\r",
+									"        {\r",
+									"            \"field\": \"birthday\",\r",
+									"            \"message\": \"Введена некорректная дата рождения\"\r",
+									"        },\r",
+									"        {\r",
+									"            \"field\": \"phone\",\r",
+									"            \"message\": \"Телефонный номер должен состоять из 11 цифр\"\r",
+									"        },\r",
+									"        {\r",
+									"            \"field\": \"password\",\r",
+									"            \"message\": \"Пароль должен быть заполнен\"\r",
+									"        }\r",
+									"    ];\r",
+									"    pm.expect(jsonData.errors).to.be.an('array').that.deep.includes.members(expectedErrors);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должен быть 400').to.eql(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'timestamp у ошибки'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('timestamp');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"surname\": \"\",\r\n  \"name\": \"\",\r\n  \"email\": \"\",\r\n  \"birthday\": \"2999-03-22\",\r\n  \"phone\": \"8951\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание 2го пользователя",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при создании пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'id' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData.id, '\"id\" должен быть 2').to.eql(2);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'surname' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('surname');\r",
+									"    pm.expect(jsonData.surname, '\"surname\" должна быть \"Семенчук\"').to.eql('Семенчук');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'name' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('name');\r",
+									"    pm.expect(jsonData.name, '\"name\" должно быть \"Сергей\"').to.eql('Сергей');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'patronymic' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('patronymic');\r",
+									"    pm.expect(jsonData.patronymic, '\"patronymic\" должно быть \"Борисович\"').to.eql('Борисович');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'email' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('email');\r",
+									"    pm.expect(jsonData.email, '\"email\" должно быть \"nikit1739@yandex.ru\"').to.eql('nikit1739@yandex.ru');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'birthday' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('birthday');\r",
+									"    pm.expect(jsonData.birthday, '\"birthday\" должен быть \"1967-03-08\"').to.eql('1967-03-08');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'phone' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('phone');\r",
+									"    pm.expect(jsonData.phone, '\"phone\" должен быть \"89512369878\"').to.eql('89512369878');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"surname\": \"Семенчук\",\r\n  \"name\": \"Сергей\",\r\n  \"patronymic\": \"Борисович\",\r\n  \"email\": \"nikit1739@yandex.ru\",\r\n  \"birthday\": \"1967-03-08\",\r\n  \"phone\": \"89512369878\",\r\n  \"password\": \"bigsecret321\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание 3го пользователя",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при создании пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'id' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData.id, '\"id\" должен быть 3').to.eql(3);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'surname' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('surname');\r",
+									"    pm.expect(jsonData.surname, '\"surname\" должна быть \"Романова\"').to.eql('Романова');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'name' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('name');\r",
+									"    pm.expect(jsonData.name, '\"name\" должно быть \"Ксения\"').to.eql('Ксения');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'patronymic' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('patronymic');\r",
+									"    pm.expect(jsonData.patronymic, '\"patronymic\" должно быть \"Никитична\"').to.eql('Никитична');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'email' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('email');\r",
+									"    pm.expect(jsonData.email, '\"email\" должно быть \"nikit1739@mail.ru\"').to.eql('nikit1739@mail.ru');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'birthday' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('birthday');\r",
+									"    pm.expect(jsonData.birthday, '\"birthday\" должен быть \"1995-05-15\"').to.eql('1995-05-15');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'phone' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('phone');\r",
+									"    pm.expect(jsonData.phone, '\"phone\" должен быть \"89915263574\"').to.eql('89915263574');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"surname\": \"Романова\",\r\n  \"name\": \"Ксения\",\r\n  \"patronymic\": \"Никитична\",\r\n  \"email\": \"nikit1739@mail.ru\",\r\n  \"birthday\": \"1995-05-15\",\r\n  \"phone\": \"89915263574\",\r\n  \"password\": \"Kseniya1995\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание 4го пользователя (будет без карт)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при создании пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'id' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData.id, '\"id\" должен быть 4').to.eql(4);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'surname' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('surname');\r",
+									"    pm.expect(jsonData.surname, '\"surname\" должна быть \"Пожаров\"').to.eql('Пожаров');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'name' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('name');\r",
+									"    pm.expect(jsonData.name, '\"name\" должно быть \"Игорь\"').to.eql('Игорь');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'patronymic' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('patronymic');\r",
+									"    pm.expect(jsonData.patronymic, '\"patronymic\" должно быть \"Степанович\"').to.eql('Степанович');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'email' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('email');\r",
+									"    pm.expect(jsonData.email, '\"email\" должно быть \"pozh1992@yandex.com\"').to.eql('pozh1992@yandex.com');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'birthday' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('birthday');\r",
+									"    pm.expect(jsonData.birthday, '\"birthday\" должен быть \"1992-01-18\"').to.eql('1992-01-18');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'phone' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('phone');\r",
+									"    pm.expect(jsonData.phone, '\"phone\" должен быть \"89969659696\"').to.eql('89969659696');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"surname\": \"Пожаров\",\r\n  \"name\": \"Игорь\",\r\n  \"patronymic\": \"Степанович\",\r\n  \"email\": \"pozh1992@yandex.com\",\r\n  \"birthday\": \"1992-01-18\",\r\n  \"phone\": \"89969659696\",\r\n  \"password\": \"Igor19920118\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание пользователя с уже существующим email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 409\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Пользователь с таким email (nikit1739@mail.ru) уже существует\"').to.eql(\"Пользователь с таким email (nikit1739@mail.ru) уже существует\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть \"CONFLICT\"').to.eql('CONFLICT');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'time' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('time');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"surname\": \"Новиков\",\r\n  \"name\": \"Неправильный\",\r\n  \"patronymic\": \"Полекович\",\r\n  \"email\": \"nikit1739@mail.ru\",\r\n  \"birthday\": \"1990-02-24\",\r\n  \"phone\": \"89915525252\",\r\n  \"password\": \"Wrong19900224\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание пользователя с некорректным email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'error' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error');\r",
+									"    pm.expect(jsonData.error, '\"error\" должно быть \"Bad Request\"').to.eql(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Ошибка валидации данных\"').to.eql('Ошибка валидации данных');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия массива ошибок 'errors'\"),function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('errors');\r",
+									"    pm.expect(jsonData.errors).to.be.an('array');\r",
+									"    pm.expect(jsonData.errors.length).to.be.above(0);\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Проверка содержимого массива ошибок 'errors'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var expectedErrors = [\r",
+									"        {\r",
+									"            \"field\": \"email\",\r",
+									"            \"message\": \"Введённый email некорректен\"\r",
+									"        }\r",
+									"    ];\r",
+									"    pm.expect(jsonData.errors).to.be.an('array').that.deep.includes.members(expectedErrors);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должен быть 400').to.eql(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'timestamp у ошибки'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('timestamp');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"surname\": \"Новиков\",\r\n  \"name\": \"Неправильный\",\r\n  \"patronymic\": \"Полекович\",\r\n  \"email\": \"email.com\",\r\n  \"birthday\": \"1990-02-24\",\r\n  \"phone\": \"89915525252\",\r\n  \"password\": \"Wrong19900224\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание пользователя с уже существующим номером телефона",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 409\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Пользователь с таким номером телефона (89969659696) уже существует\"').to.eql(\"Пользователь с таким номером телефона (89969659696) уже существует\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть \"CONFLICT\"').to.eql('CONFLICT');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'time у ошибки'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('time');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"surname\": \"Неправильнов\",\r\n  \"name\": \"Пользователь\",\r\n  \"patronymic\": \"Номерович\",\r\n  \"email\": \"wrongnumber@gmail.com\",\r\n  \"birthday\": \"1992-01-18\",\r\n  \"phone\": \"89969659696\",\r\n  \"password\": \"Igor19920118\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание пользователя с некорректным номером телефона (не российский формат)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'error' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error');\r",
+									"    pm.expect(jsonData.error, '\"error\" должно быть \"Bad Request\"').to.eql(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Ошибка валидации данных\"').to.eql('Ошибка валидации данных');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия массива ошибок 'errors'\"),function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('errors');\r",
+									"    pm.expect(jsonData.errors).to.be.an('array');\r",
+									"    pm.expect(jsonData.errors.length).to.be.above(0);\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Проверка содержимого массива ошибок 'errors'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var expectedErrors = [\r",
+									"        {\r",
+									"            \"field\": \"phone\",\r",
+									"            \"message\": \"Телефон должен начинаться с 7 или 8 и содержать только цифры\"\r",
+									"        }\r",
+									"    ];\r",
+									"    pm.expect(jsonData.errors).to.be.an('array').that.deep.includes.members(expectedErrors);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должен быть 400').to.eql(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'timestamp у ошибки'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('timestamp');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"surname\": \"Неправильнов\",\r\n  \"name\": \"Пользователь\",\r\n  \"patronymic\": \"Номерович\",\r\n  \"email\": \"wrongnumber@gmail.com\",\r\n  \"birthday\": \"1992-01-18\",\r\n  \"phone\": \"12345678911\",\r\n  \"password\": \"Igor19920118\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание пользователя с некорректным номером телефона (менее 11 цифр)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'error' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error');\r",
+									"    pm.expect(jsonData.error, '\"error\" должно быть \"Bad Request\"').to.eql(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Ошибка валидации данных\"').to.eql('Ошибка валидации данных');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия массива ошибок 'errors'\"),function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('errors');\r",
+									"    pm.expect(jsonData.errors).to.be.an('array');\r",
+									"    pm.expect(jsonData.errors.length).to.be.above(0);\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Проверка содержимого массива ошибок 'errors'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var expectedErrors = [\r",
+									"        {\r",
+									"            \"field\": \"phone\",\r",
+									"            \"message\": \"Телефонный номер должен состоять из 11 цифр\"\r",
+									"        }\r",
+									"    ];\r",
+									"    pm.expect(jsonData.errors).to.be.an('array').that.deep.includes.members(expectedErrors);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должен быть 400').to.eql(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'timestamp у ошибки'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('timestamp');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"surname\": \"Неправильнов\",\r\n  \"name\": \"Пользователь\",\r\n  \"patronymic\": \"Номерович\",\r\n  \"email\": \"wrongnumber@gmail.com\",\r\n  \"birthday\": \"1992-01-18\",\r\n  \"phone\": \"8951\",\r\n  \"password\": \"Igor19920118\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание пользователя с некорректной датой рождения из будущего",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'error' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error');\r",
+									"    pm.expect(jsonData.error, '\"error\" должно быть \"Bad Request\"').to.eql(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Ошибка валидации данных\"').to.eql('Ошибка валидации данных');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия массива ошибок 'errors'\"),function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('errors');\r",
+									"    pm.expect(jsonData.errors).to.be.an('array');\r",
+									"    pm.expect(jsonData.errors.length).to.be.above(0);\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Проверка содержимого массива ошибок 'errors'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var expectedErrors = [\r",
+									"        {\r",
+									"            \"field\": \"birthday\",\r",
+									"            \"message\": \"Введена некорректная дата рождения\"\r",
+									"        }\r",
+									"    ];\r",
+									"    pm.expect(jsonData.errors).to.be.an('array').that.deep.includes.members(expectedErrors);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должен быть 400').to.eql(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'timestamp у ошибки'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('timestamp');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"surname\": \"Неправильнов\",\r\n  \"name\": \"Пользователь\",\r\n  \"patronymic\": \"Номерович\",\r\n  \"email\": \"wrongnumber@gmail.com\",\r\n  \"birthday\": \"2992-01-18\",\r\n  \"phone\": \"89519599595\",\r\n  \"password\": \"Igor19920118\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Обновление пользователя по ID 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 200\", function () {\r",
+									"    pm.response.to.be.ok;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при обновлении пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'id' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData.id, '\"id\" must be 1').to.eql(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'surname' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('surname');\r",
+									"    pm.expect(jsonData.surname, '\"surname\" должна быть \"Обновлёнов\"').to.eql('Обновлёнов');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'name' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('name');\r",
+									"    pm.expect(jsonData.name, '\"name\" должно быть \"Денис\"').to.eql('Денис');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'patronymic' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('patronymic');\r",
+									"    pm.expect(jsonData.patronymic, '\"patronymic\" должно быть \"Александрович\"').to.eql('Александрович');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'email' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('email');\r",
+									"    pm.expect(jsonData.email, '\"email\" должна быть \"updated@yandex.com\"').to.eql('updated@yandex.com');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'birthday' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('birthday');\r",
+									"    pm.expect(jsonData.birthday, '\"birthday\" должна быть \"1990-08-10\"').to.eql('1990-08-10');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'phone' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('phone');\r",
+									"    pm.expect(jsonData.phone, '\"phone\" должна быть \"79523639558\"').to.eql('79523639558');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"surname\": \"Обновлёнов\",\r\n  \"name\": \"Денис\",\r\n  \"patronymic\": \"Александрович\",\r\n  \"email\": \"updated@yandex.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/1",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Обновление несуществующего пользователя по ID 9999",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Пользователь с ID: 9999 не найден!\"').to.eql(\"Пользователь с ID: 9999 не найден!\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть \"NOT_FOUND\"').to.eql('NOT_FOUND');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'time у ошибки'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('time');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"surname\": \"Обновлёнов\",\r\n  \"name\": \"Денис\",\r\n  \"patronymic\": \"Александрович\",\r\n  \"email\": \"updated@yandex.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/9999",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"9999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Обновление пользователя по ID 3 (уже существующий email))",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 409\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Пользователь с таким email (updated@yandex.com) уже существует\"').to.eql(\"Пользователь с таким email (updated@yandex.com) уже существует\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть \"CONFLICT\"').to.eql('CONFLICT');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'time' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('time');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"updated@yandex.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/3",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Обновление пользователя по ID 3 (уже существующий номер телефона)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 409\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Пользователь с таким номером телефона (89512369878) уже существует\"').to.eql(\"Пользователь с таким номером телефона (89512369878) уже существует\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть \"CONFLICT\"').to.eql('CONFLICT');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'time' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('time');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phone\": \"89512369878\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/3",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Обновление пользователя по ID 2 (слишком длинное имя)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'error' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error');\r",
+									"    pm.expect(jsonData.error, '\"error\" должно быть \"Bad Request\"').to.eql(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Ошибка валидации данных\"').to.eql('Ошибка валидации данных');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия массива ошибок 'errors'\"),function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('errors');\r",
+									"    pm.expect(jsonData.errors).to.be.an('array');\r",
+									"    pm.expect(jsonData.errors.length).to.be.above(0);\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Проверка содержимого массива ошибок 'errors'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var expectedErrors = [\r",
+									"        {\r",
+									"            \"field\": \"name\",\r",
+									"            \"message\": \"Размер имени не должен превышать 70 символов\"\r",
+									"        }\r",
+									"    ];\r",
+									"    pm.expect(jsonData.errors).to.be.an('array').that.deep.includes.members(expectedErrors);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должен быть 400').to.eql(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'timestamp' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('timestamp');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/2",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Обновление пользователя по ID 2 (нероссийский формат номера телефона)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'error' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error');\r",
+									"    pm.expect(jsonData.error, '\"error\" должно быть \"Bad Request\"').to.eql(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Ошибка валидации данных\"').to.eql('Ошибка валидации данных');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия массива ошибок 'errors'\"),function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('errors');\r",
+									"    pm.expect(jsonData.errors).to.be.an('array');\r",
+									"    pm.expect(jsonData.errors.length).to.be.above(0);\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Проверка содержимого массива ошибок 'errors'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var expectedErrors = [\r",
+									"        {\r",
+									"            \"field\": \"phone\",\r",
+									"            \"message\": \"Телефонный номер должен состоять из 11 цифр\"\r",
+									"        },\r",
+									"        {\r",
+									"            \"field\": \"phone\",\r",
+									"            \"message\": \"Телефон должен начинаться с 7 или 8 и содержать только цифры\"\r",
+									"        }\r",
+									"    ];\r",
+									"    pm.expect(jsonData.errors).to.be.an('array').that.deep.includes.members(expectedErrors);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должен быть 400').to.eql(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'timestamp' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('timestamp');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phone\": \"123456789111\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/2",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Обновление пользователя по ID 2 (номер телефона менее 11 цифр)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'error' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error');\r",
+									"    pm.expect(jsonData.error, '\"error\" должно быть \"Bad Request\"').to.eql(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Ошибка валидации данных\"').to.eql('Ошибка валидации данных');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия массива ошибок 'errors'\"),function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('errors');\r",
+									"    pm.expect(jsonData.errors).to.be.an('array');\r",
+									"    pm.expect(jsonData.errors.length).to.be.above(0);\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Проверка содержимого массива ошибок 'errors'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var expectedErrors = [\r",
+									"        {\r",
+									"            \"field\": \"phone\",\r",
+									"            \"message\": \"Телефонный номер должен состоять из 11 цифр\"\r",
+									"        }\r",
+									"    ];\r",
+									"    pm.expect(jsonData.errors).to.be.an('array').that.deep.includes.members(expectedErrors);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должен быть 400').to.eql(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'timestamp' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('timestamp');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phone\": \"895\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/2",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение пользователя по ID 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 200\", function () {\r",
+									"    pm.response.to.be.ok;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'id' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData.id, '\"id\" должно быть 1').to.eql(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'surname' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('surname');\r",
+									"    pm.expect(jsonData.surname, '\"surname\" должна быть \"Обновлёнов\"').to.eql(\"Обновлёнов\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'name' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('name');\r",
+									"    pm.expect(jsonData.name, '\"name\" должно быть \"Денис\"').to.eql(\"Денис\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'patronymic' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('patronymic');\r",
+									"    pm.expect(jsonData.patronymic, '\"patronymic\" должно быть \"Александрович\"').to.eql(\"Александрович\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'email' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('email');\r",
+									"    pm.expect(jsonData.email, '\"email\" должно быть \"updated@yandex.com\"').to.eql(\"updated@yandex.com\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'birthday' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('birthday');\r",
+									"    pm.expect(jsonData.birthday, '\"birthday\" должно быть \"1990-08-10\"').to.eql(\"1990-08-10\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'phone' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('phone');\r",
+									"    pm.expect(jsonData.phone, '\"phone\" должно быть \"79523639558\"').to.eql(\"79523639558\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/1",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение пользователя по некорректному ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'timestamp' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('timestamp');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть 400').to.eql(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'error' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error');\r",
+									"    pm.expect(jsonData.error, '\"error\" должно быть \"Bad Request\"').to.eql(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'path' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('path');\r",
+									"    pm.expect(jsonData.path, '\"path\" должен быть \"/users/od\"').to.eql(\"/users/od\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/od",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"od"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение пользователя по несуществующему ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Пользователь с ID: 9999 не найден!\"').to.eql(\"Пользователь с ID: 9999 не найден!\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть \"NOT_FOUND\"').to.eql('NOT_FOUND');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'time' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('time');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/9999",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"9999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение пользователя по ID 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 200\", function () {\r",
+									"    pm.response.to.be.ok;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'id' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData.id, '\"id\" должно быть 2').to.eql(2);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'surname' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('surname');\r",
+									"    pm.expect(jsonData.surname, '\"surname\" должна быть \"Семенчук\"').to.eql(\"Семенчук\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'name' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('name');\r",
+									"    pm.expect(jsonData.name, '\"name\" должно быть \"Сергей\"').to.eql(\"Сергей\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'patronymic' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('patronymic');\r",
+									"    pm.expect(jsonData.patronymic, '\"patronymic\" должно быть \"Борисович\"').to.eql(\"Борисович\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'email' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('email');\r",
+									"    pm.expect(jsonData.email, '\"email\" должно быть \"nikit1739@yandex.ru\"').to.eql(\"nikit1739@yandex.ru\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'birthday' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('birthday');\r",
+									"    pm.expect(jsonData.birthday, '\"birthday\" должно быть \"1967-03-08\"').to.eql(\"1967-03-08\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'phone' у пользователя\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('phone');\r",
+									"    pm.expect(jsonData.phone, '\"phone\" должно быть \"89512369878\"').to.eql(\"89512369878\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/2",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Удаление пользователя по ID 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 200\", function () {\r",
+									"    pm.response.to.be.ok;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/1",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Удаление пользователя по несуществующему ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Пользователь с ID: 9999 не найден!\"').to.eql(\"Пользователь с ID: 9999 не найден!\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть \"NOT_FOUND\"').to.eql('NOT_FOUND');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'time' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('time');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/9999",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"9999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Удаление пользователя по некорректному ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'timestamp' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('timestamp');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть 400').to.eql(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Проверка поля 'error' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error');\r",
+									"    pm.expect(jsonData.error, '\"error\" должно быть \"Bad Request\"').to.eql(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'path' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('path');\r",
+									"    pm.expect(jsonData.path, '\"path\" должно быть \"/users/qwe\"').to.eql(\"/users/qwe\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/qwe",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"qwe"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Список запросов для работы с пользователями"
+		},
+		{
+			"name": "Card",
+			"item": [
+				{
+					"name": "Первое создание карты пользователем 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при создании банковской карты\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'id' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData.id, '\"id\" должен быть 1').to.eql(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка полей 'owner' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('owner');\r",
+									"    pm.expect(jsonData.owner.name, '\"name\" должно быть \"Сергей\"').to.eql(\"Сергей\");\r",
+									"    pm.expect(jsonData.owner.surname, '\"surname\" должно быть \"Семенчук\"').to.eql(\"Семенчук\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'number' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('number');\r",
+									"    pm.expect(jsonData.number.length, \"'number' должен содержать ровно 16 символов\").to.eql(16);\r",
+									"    pm.expect(jsonData.number.startsWith(\"4395\"), \"'number' должен начинаться с цифр '4395'\").to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'expirationDate' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('expirationDate');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'opened' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('opened');\r",
+									"    pm.expect(jsonData.opened, '\"opened\" должен быть true').to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/2/cards",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"2",
+								"cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Второе создание карты пользователем 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при создании банковской карты\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'id' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData.id, '\"id\" должен быть 2').to.eql(2);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка полей 'owner' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('owner');\r",
+									"    pm.expect(jsonData.owner.name, '\"name\" должно быть \"Сергей\"').to.eql(\"Сергей\");\r",
+									"    pm.expect(jsonData.owner.surname, '\"surname\" должно быть \"Семенчук\"').to.eql(\"Семенчук\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'number' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('number');\r",
+									"    pm.expect(jsonData.number.length, \"'number' должен содержать ровно 16 символов\").to.eql(16);\r",
+									"    pm.expect(jsonData.number.startsWith(\"4395\"), \"'number' должен начинаться с цифр '4395'\").to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'expirationDate' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('expirationDate');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'opened' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('opened');\r",
+									"    pm.expect(jsonData.opened, '\"opened\" должен быть true').to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/2/cards",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"2",
+								"cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Третье создание карты пользователем 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при создании банковской карты\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'id' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData.id, '\"id\" должен быть 3').to.eql(3);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка полей 'owner' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('owner');\r",
+									"    pm.expect(jsonData.owner.name, '\"name\" должно быть \"Сергей\"').to.eql(\"Сергей\");\r",
+									"    pm.expect(jsonData.owner.surname, '\"surname\" должно быть \"Семенчук\"').to.eql(\"Семенчук\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'number' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('number');\r",
+									"    pm.expect(jsonData.number.length, \"'number' должен содержать ровно 16 символов\").to.eql(16);\r",
+									"    pm.expect(jsonData.number.startsWith(\"4395\"), \"'number' должен начинаться с цифр '4395'\").to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'expirationDate' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('expirationDate');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'opened' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('opened');\r",
+									"    pm.expect(jsonData.opened, '\"opened\" должен быть true').to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/2/cards",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"2",
+								"cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание карты пользователем 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при создании банковской карты\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'id' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData.id, '\"id\" должен быть 4').to.eql(4);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка полей 'owner' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('owner');\r",
+									"    pm.expect(jsonData.owner.name, '\"name\" должно быть \"Ксения\"').to.eql(\"Ксения\");\r",
+									"    pm.expect(jsonData.owner.surname, '\"surname\" должно быть \"Романова\"').to.eql(\"Романова\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'number' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('number');\r",
+									"    pm.expect(jsonData.number.length, \"'number' должно содержать ровно 16 символов\").to.eql(16);\r",
+									"    pm.expect(jsonData.number.startsWith(\"4395\"), \"'number' должно начинаться с цифр '4395'\").to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'expirationDate' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('expirationDate');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'opened' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('opened');\r",
+									"    pm.expect(jsonData.opened, '\"opened\" должен быть true').to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/3/cards",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"3",
+								"cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание карты при некорректном ID пользователя",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'timestamp' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('timestamp');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть 400').to.eql(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'error' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error');\r",
+									"    pm.expect(jsonData.error, '\"error\" должно быть \"Bad Request\"').to.eql(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'path' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('path');\r",
+									"    pm.expect(jsonData.path, '\"path\" должен быть \"/users/wqe/cards\"').to.eql(\"/users/wqe/cards\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/wqe/cards",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"wqe",
+								"cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание карты при несуществующем ID пользователя",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Пользователь с ID: 9999 не найден!\"').to.eql(\"Пользователь с ID: 9999 не найден!\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть \"NOT_FOUND\"').to.eql('NOT_FOUND');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'time' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('time');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/9999/cards",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"9999",
+								"cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение всех карт пользователя 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Код ответа должен быть 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('Есть ответ при получении списка банковских карт', function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'id' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var uniqueIds = [];\r",
+									"    var expectedId = 1;\r",
+									"\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('id');\r",
+									"        pm.expect(uniqueIds).to.not.include(card.id);\r",
+									"        pm.expect(card.id).to.eql(expectedId)\r",
+									"        uniqueIds.push(card.id);\r",
+									"        expectedId++;\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'name' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card.owner).to.have.property('name');\r",
+									"        pm.expect(card.owner.name, \"'name' должно быть 'Сергей'\").to.eql(\"Сергей\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'surname' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card.owner).to.have.property('surname');\r",
+									"        pm.expect(card.owner.surname, \"'surname' должна быть 'Семенчук'\").to.eql(\"Семенчук\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'number' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('number');\r",
+									"        pm.expect(card.number.length, \"'number' должен содержать ровно 16 символов\").to.eql(16);\r",
+									"        pm.expect(card.number.startsWith(\"4395\"), \"'number' должен начинаться с цифр '4395'\").to.be.true;\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'expirationDate' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('expirationDate');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'opened' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('opened');\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/2/cards",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"2",
+								"cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение всех карт пользователя 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Код ответа должен быть 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('Есть ответ при получении списка банковских карт', function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'id' получаемых карт пользователя с ID 3\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var uniqueIds = [];\r",
+									"    var expectedId = 4;\r",
+									"\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('id');\r",
+									"        pm.expect(uniqueIds).to.not.include(card.id);\r",
+									"        pm.expect(card.id).to.eql(expectedId)\r",
+									"        uniqueIds.push(card.id);\r",
+									"        expectedId++;\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'name' получаемых карт пользователя с ID 3\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card.owner).to.have.property('name');\r",
+									"        pm.expect(card.owner.name, \"'name' должно быть 'Ксения'\").to.eql(\"Ксения\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'surname' получаемых карт пользователя с ID 3\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card.owner).to.have.property('surname');\r",
+									"        pm.expect(card.owner.surname, \"'surname' должна быть 'Романова'\").to.eql(\"Романова\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'number' получаемых карт пользователя с ID 3\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('number');\r",
+									"        pm.expect(card.number.length, \"'number' должен содержать ровно 16 символов\").to.eql(16);\r",
+									"        pm.expect(card.number.startsWith(\"4395\"), \"'number' должен начинаться с цифр '4395'\").to.be.true;\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'expirationDate' получаемых карт пользователя с ID 3\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('expirationDate');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'opened' получаемых карт пользователя с ID 3\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('opened');\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/3/cards",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"3",
+								"cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение всех карт пользователя 4 (без карт)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Код ответа должен быть 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test('Есть ответ при получении списка банковских карт', function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"})\r",
+									"\r",
+									"pm.test('В ответе получаем пустой json', function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.empty;\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/4/cards",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"4",
+								"cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение всех карт по некорректному ID пользователя",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'timestamp' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('timestamp');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть 400').to.eql(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'error' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error');\r",
+									"    pm.expect(jsonData.error, '\"error\" должно быть \"Bad Request\"').to.eql(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'path' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('path');\r",
+									"    pm.expect(jsonData.path, '\"path\" должен быть \"/users/hjk/cards\"').to.eql(\"/users/hjk/cards\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/hjk/cards",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"hjk",
+								"cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение всех карт по несуществующему ID пользователя",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Пользователь с ID: 9999 не найден!\"').to.eql(\"Пользователь с ID: 9999 не найден!\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть \"NOT_FOUND\"').to.eql('NOT_FOUND');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'time' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('time');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/9999/cards",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"9999",
+								"cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Закрытие карты 3 у пользователя 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при создании банковской карты\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'id' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData.id, '\"id\" должен быть 3').to.eql(3);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка полей 'owner' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('owner');\r",
+									"    pm.expect(jsonData.owner.name, '\"name\" должно быть \"Сергей\"').to.eql(\"Сергей\");\r",
+									"    pm.expect(jsonData.owner.surname, '\"surname\" должно быть \"Семенчук\"').to.eql(\"Семенчук\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'number' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('number');\r",
+									"    pm.expect(jsonData.number.length, \"'number' должно содержать ровно 16 символов\").to.eql(16);\r",
+									"    pm.expect(jsonData.number.startsWith(\"4395\"), \"'number' должно начинаться с цифр '4395'\").to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'expirationDate' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('expirationDate');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'opened' у банковской карты\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('opened');\r",
+									"    pm.expect(jsonData.opened, '\"opened\" должен быть false').to.eql(false);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/2/cards/3",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"2",
+								"cards",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Закрытие карты 3 у несуществующего пользователя",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Пользователь с ID: 9999 не найден!\"').to.eql(\"Пользователь с ID: 9999 не найден!\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть \"NOT_FOUND\"').to.eql('NOT_FOUND');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'time' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('time');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/9999/cards/3",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"9999",
+								"cards",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Закрытие несуществующей карты у пользователя 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Банковская карта с ID: 9999 не найден!\"').to.eql(\"Банковская карта с ID: 9999 не найден!\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть \"NOT_FOUND\"').to.eql('NOT_FOUND');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'time' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('time');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/2/cards/9999",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"2",
+								"cards",
+								"9999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение всех карт пользователя 2 после закрытия карты",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Код ответа должен быть 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('Есть ответ при получении списка банковских карт', function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'id' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var uniqueIds = [];\r",
+									"    var expectedId = 1;\r",
+									"\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('id');\r",
+									"        pm.expect(uniqueIds).to.not.include(card.id);\r",
+									"        pm.expect(card.id).to.eql(expectedId)\r",
+									"        uniqueIds.push(card.id);\r",
+									"        expectedId++;\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'name' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card.owner).to.have.property('name');\r",
+									"        pm.expect(card.owner.name, \"'name' должно быть 'Сергей'\").to.eql(\"Сергей\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'surname' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card.owner).to.have.property('surname');\r",
+									"        pm.expect(card.owner.surname, \"'surname' должна быть 'Семенчук'\").to.eql(\"Семенчук\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'number' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('number');\r",
+									"        pm.expect(card.number.length, \"'number' должен содержать ровно 16 символов\").to.eql(16);\r",
+									"        pm.expect(card.number.startsWith(\"4395\"), \"'number' должен начинаться с цифр '4395'\").to.be.true;\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'expirationDate' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('expirationDate');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'opened' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('opened');\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/2/cards",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"2",
+								"cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Попытка закрыть пользователем 3 не свою карту 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Невозможно выполнить запрос по закрытию карты! Карта с ID 1 не принадлежит пользователю с ID 3!\"').to.eql(\"Невозможно выполнить запрос по закрытию карты! Карта с ID 1 не принадлежит пользователю с ID 3!\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть \"FORBIDDEN\"').to.eql('FORBIDDEN');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'time' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('time');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/3/cards/1",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"3",
+								"cards",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение всех открытых карт пользователя 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Код ответа должен быть 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('Есть ответ при получении списка открытых банковских карт', function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'id' получаемых карт пользователя с ID 3\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var uniqueIds = [];\r",
+									"    var expectedId = 4;\r",
+									"\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('id');\r",
+									"        pm.expect(uniqueIds).to.not.include(card.id);\r",
+									"        pm.expect(card.id).to.eql(expectedId)\r",
+									"        uniqueIds.push(card.id);\r",
+									"        expectedId++;\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'name' получаемых карт пользователя с ID 3\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card.owner).to.have.property('name');\r",
+									"        pm.expect(card.owner.name, \"'name' должно быть 'Ксения'\").to.eql(\"Ксения\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'surname' получаемых карт пользователя с ID 3\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card.owner).to.have.property('surname');\r",
+									"        pm.expect(card.owner.surname, \"'surname' должна быть 'Романова'\").to.eql(\"Романова\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'number' получаемых карт пользователя с ID 3\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('number');\r",
+									"        pm.expect(card.number.length, \"'number' должен содержать ровно 16 символов\").to.eql(16);\r",
+									"        pm.expect(card.number.startsWith(\"4395\"), \"'number' должен начинаться с цифр '4395'\").to.be.true;\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'expirationDate' получаемых карт пользователя с ID 3\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('expirationDate');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'opened' получаемых карт пользователя с ID 3\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('opened');\r",
+									"        pm.expect(card.opened).to.be.true;\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/3/cards/opened",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"3",
+								"cards",
+								"opened"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение всех открытых карт пользователя по некорректному ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'timestamp' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('timestamp');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть 400').to.eql(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'error' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error');\r",
+									"    pm.expect(jsonData.error, '\"error\" должно быть \"Bad Request\"').to.eql(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'path' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('path');\r",
+									"    pm.expect(jsonData.path, '\"path\" должен быть \"/users/lplp/cards/opened\"').to.eql(\"/users/lplp/cards/opened\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/lplp/cards/opened",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"lplp",
+								"cards",
+								"opened"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение всех открытых карт пользователя по несуществующему ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Пользователь с ID: 9999 не найден!\"').to.eql(\"Пользователь с ID: 9999 не найден!\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть \"NOT_FOUND\"').to.eql('NOT_FOUND');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'time' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('time');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/9999/cards/opened",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"9999",
+								"cards",
+								"opened"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение всех открытых карт пользователя 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Код ответа должен быть 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('Есть ответ при получении списка открытых банковских карт', function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'id' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var uniqueIds = [];\r",
+									"    var expectedId = 1;\r",
+									"\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('id');\r",
+									"        pm.expect(uniqueIds).to.not.include(card.id);\r",
+									"        pm.expect(card.id).to.eql(expectedId)\r",
+									"        uniqueIds.push(card.id);\r",
+									"        expectedId++;\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'name' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card.owner).to.have.property('name');\r",
+									"        pm.expect(card.owner.name, \"'name' должно быть 'Сергей'\").to.eql(\"Сергей\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'surname' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card.owner).to.have.property('surname');\r",
+									"        pm.expect(card.owner.surname, \"'surname' должна быть 'Семенчук'\").to.eql(\"Семенчук\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'number' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('number');\r",
+									"        pm.expect(card.number.length, \"'number' должен содержать ровно 16 символов\").to.eql(16);\r",
+									"        pm.expect(card.number.startsWith(\"4395\"), \"'number' должен начинаться с цифр '4395'\").to.be.true;\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'expirationDate' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('expirationDate');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'opened' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('opened');\r",
+									"        pm.expect(card.opened).to.be.true;\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/2/cards/opened",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"2",
+								"cards",
+								"opened"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение всех закрытых карт пользователя 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Код ответа должен быть 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('Есть ответ при получении списка закрытых банковских карт', function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'id' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var uniqueIds = [];\r",
+									"    var expectedId = 3;\r",
+									"\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('id');\r",
+									"        pm.expect(uniqueIds).to.not.include(card.id);\r",
+									"        pm.expect(card.id).to.eql(expectedId)\r",
+									"        uniqueIds.push(card.id);\r",
+									"        expectedId++;\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'name' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card.owner).to.have.property('name');\r",
+									"        pm.expect(card.owner.name, \"'name' должно быть 'Сергей'\").to.eql(\"Сергей\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'surname' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card.owner).to.have.property('surname');\r",
+									"        pm.expect(card.owner.surname, \"'surname' должна быть 'Семенчук'\").to.eql(\"Семенчук\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'number' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('number');\r",
+									"        pm.expect(card.number.length, \"'number' должен содержать ровно 16 символов\").to.eql(16);\r",
+									"        pm.expect(card.number.startsWith(\"4395\"), \"'number' должен начинаться с цифр '4395'\").to.be.true;\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'expirationDate' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('expirationDate');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка 'opened' получаемых карт пользователя с ID 2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(function (card) {\r",
+									"        pm.expect(card).to.have.property('opened');\r",
+									"        pm.expect(card.opened).to.be.false;\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/2/cards/closed",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"2",
+								"cards",
+								"closed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение всех закрытых карт пользователя  по некорректному ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'timestamp' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('timestamp');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть 400').to.eql(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'error' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error');\r",
+									"    pm.expect(jsonData.error, '\"error\" должно быть \"Bad Request\"').to.eql(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'path' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('path');\r",
+									"    pm.expect(jsonData.path, '\"path\" должен быть \"/users/mkmkm/cards/closed\"').to.eql(\"/users/mkmkm/cards/closed\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/mkmkm/cards/closed",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"mkmkm",
+								"cards",
+								"closed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение всех закрытых карт пользователя  по несуществующему ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"Пользователь с ID: 9999 не найден!\"').to.eql(\"Пользователь с ID: 9999 не найден!\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть \"NOT_FOUND\"').to.eql('NOT_FOUND');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'time' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('time');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bankServiceUrl}}/users/9999/cards/closed",
+							"host": [
+								"{{bankServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"9999",
+								"cards",
+								"closed"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Список запросов для работы с картами"
+		},
+		{
+			"name": "Email",
+			"item": [
+				{
+					"name": "Отправка email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Код ответа должен быть 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('Есть ответ при отправке email', function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"});\r",
+									"\r",
+									"pm.test('Проверка типа данных ответа', function () {\r",
+									"    var responseBody = pm.response.text();\r",
+									"    pm.expect(typeof responseBody).to.eql(\"string\", \"Ответ сервиса уведомлений должен быть типа 'string'\");\r",
+									"    pm.expect(responseBody).to.include(\"Письмо было успешно отправлено на адрес nikit1739@yandex.ru\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"subject\":\"Тестовая отправка сообщения\",\r\n    \"message\":\"Добро пожаловать в наш банк!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{notofocationServiceUrl}}/email/send/nikit1739@yandex.ru",
+							"host": [
+								"{{notofocationServiceUrl}}"
+							],
+							"path": [
+								"email",
+								"send",
+								"nikit1739@yandex.ru"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Отправка некорректного email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код ответа должен быть 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Есть ответ при ошибке создания пользователя\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'message' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('message');\r",
+									"    pm.expect(jsonData.message, '\"message\" должно быть \"sendMail.email: must be a well-formed email address\"').to.eql(\"sendMail.email: must be a well-formed email address\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка поля 'status' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('status');\r",
+									"    pm.expect(jsonData.status, '\"status\" должно быть \"BAD_REQUEST\"').to.eql('BAD_REQUEST');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка наличия поля 'time' у ошибки\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('time');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"subject\":\"Тестовая отправка сообщения\",\r\n    \"message\":\"Добро пожаловать в наш банк!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{notofocationServiceUrl}}/email/send/test.com",
+							"host": [
+								"{{notofocationServiceUrl}}"
+							],
+							"path": [
+								"email",
+								"send",
+								"test.com"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Список запросов для работы с email-сервисом уведомлений"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "bankServiceUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "notofocationServiceUrl",
+			"value": "http://localhost:8081",
+			"type": "string"
+		}
+	]
+}

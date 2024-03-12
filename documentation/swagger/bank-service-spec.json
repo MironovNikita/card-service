@@ -1,0 +1,839 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Спецификация CardService OpenAPI",
+    "description": "### **CardService** - проект, предоставляющий возможность пользователям регистрироваться, обновлять свои данные, открывать и закрывать банковские карты, а также получать уведомления о любых изменениях с их данными на электронную почту, указанную при регистрации.\n\nДанная спецификация относится к основному модулю приложения, работающего с базой данных - **bank-service**.",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Bank Service - предоставляет клиентам доступ к базе данных"
+    }
+  ],
+  "tags": [
+    {
+      "description": "API для работы с пользователями",
+      "name": "User API"
+    },
+    {
+      "description": "API для работы с банковскими картами",
+      "name": "Card API"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "summary": "Создание пользователя",
+        "tags": [
+          "User API"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Пользователь успешно создан",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSafeDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "patch": {
+        "summary": "Обновление пользователя",
+        "tags": [
+          "User API"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ID пользователя",
+            "required": true,
+            "example": 1,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Пользователь успешно обновлен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSafeDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Получение пользователя по ID",
+        "tags": [
+          "User API"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ID пользователя",
+            "required": true,
+            "example": 1,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Пользователь найден",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSafeDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Удаление пользователя по ID",
+        "tags": [
+          "User API"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ID пользователя",
+            "required": true,
+            "example": 1,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Пользователь успешно удален"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}/cards": {
+      "post": {
+        "summary": "Открытие банковской карты",
+        "tags": [
+          "Card API"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "description": "ID пользователя",
+            "required": true,
+            "example": 1,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Карта успешно открыта",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CardSafeDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Получение всех банковских карт пользователя",
+        "tags": [
+          "Card API"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "description": "ID пользователя",
+            "required": true,
+            "example": 1,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список банковских карт пользователя",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CardSafeDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}/cards/opened": {
+      "get": {
+        "summary": "Получение всех открытых банковских карт пользователя",
+        "tags": [
+          "Card API"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "description": "ID пользователя",
+            "required": true,
+            "example": 1,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список открытых банковских карт пользователя",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CardSafeDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}/cards/closed": {
+      "get": {
+        "summary": "Получение всех закрытых банковских карт пользователя",
+        "tags": [
+          "Card API"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "description": "ID пользователя",
+            "required": true,
+            "example": 1,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список закрытых банковских карт пользователя",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CardSafeDtoClosed"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}/cards/{cardId}": {
+      "patch": {
+        "summary": "Закрытие карты пользователем",
+        "tags": [
+          "Card API"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "description": "ID пользователя",
+            "required": true,
+            "example": 1,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "in": "path",
+            "name": "cardId",
+            "description": "ID банковской карты",
+            "required": true,
+            "example": 1,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список закрытых банковских карт пользователя",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CardSafeDtoClosed"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserDto": {
+        "required": [
+          "surname",
+          "name",
+          "patronymic",
+          "email",
+          "birthday",
+          "phone",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "ID пользователя",
+            "example": 1
+          },
+          "surname": {
+            "type": "string",
+            "description": "Фамилия",
+            "example": "Иванов",
+            "maxLength": 70
+          },
+          "name": {
+            "type": "string",
+            "description": "Имя",
+            "example": "Иван",
+            "maxLength": 70
+          },
+          "patronymic": {
+            "type": "string",
+            "description": "Отчество",
+            "example": "Иванович",
+            "maxLength": 70
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Почтовый адрес",
+            "example": "ivanov-ivan@yandex.com",
+            "minLength": 5,
+            "maxLength": 50
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date",
+            "description": "Дата рождения",
+            "example": "1990-03-12"
+          },
+          "phone": {
+            "type": "string",
+            "format": "russian phone",
+            "description": "Номер телефона",
+            "pattern": "^[78]\\d*$",
+            "example": 89635251478,
+            "minLength": 11,
+            "maxLength": 11
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "description": "Пароль пользователя",
+            "example": "IvanovI1990",
+            "minLength": 10,
+            "maxLength": 20
+          }
+        },
+        "description": "Принимаемый объект пользователя"
+      },
+      "UserSafeDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "ID пользователя",
+            "example": 1,
+            "readOnly": true
+          },
+          "surname": {
+            "type": "string",
+            "description": "Фамилия",
+            "example": "Иванов",
+            "maxLength": 70
+          },
+          "name": {
+            "type": "string",
+            "description": "Имя",
+            "example": "Иван",
+            "maxLength": 70
+          },
+          "patronymic": {
+            "type": "string",
+            "description": "Отчество",
+            "example": "Иванович",
+            "maxLength": 70
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Почтовый адрес",
+            "example": "ivanov-ivan@yandex.com",
+            "minLength": 5,
+            "maxLength": 50
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date",
+            "description": "Дата рождения",
+            "example": "1990-03-12"
+          },
+          "phone": {
+            "type": "string",
+            "format": "russian phone",
+            "description": "Номер телефона",
+            "pattern": "^[78]\\d*$",
+            "example": 89635251478,
+            "minLength": 11,
+            "maxLength": 11
+          }
+        },
+        "description": "Получаемый объект пользователя"
+      },
+      "CardSafeDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "ID банковской карты",
+            "example": 1,
+            "readOnly": true
+          },
+          "owner": {
+            "$ref": "#/components/schemas/UserCardDto"
+          },
+          "number": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 16,
+            "format": "4395...",
+            "description": "Номер банковской карты",
+            "example": 4395635214789512
+          },
+          "expirationDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Дата окончания срока действия карты",
+            "example": "2027-03-12"
+          },
+          "opened": {
+            "type": "boolean",
+            "example": true
+          }
+        },
+        "description": "Получаемый объект банковской карты"
+      },
+      "CardSafeDtoClosed": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "ID банковской карты",
+            "example": 1,
+            "readOnly": true
+          },
+          "owner": {
+            "$ref": "#/components/schemas/UserCardDto"
+          },
+          "number": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 16,
+            "format": "4395...",
+            "description": "Номер банковской карты",
+            "example": 4395635214789512
+          },
+          "expirationDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Дата окончания срока действия карты",
+            "example": "2027-03-12"
+          },
+          "opened": {
+            "type": "boolean",
+            "example": false
+          }
+        },
+        "description": "Получаемый объект банковской карты"
+      },
+      "UserCardDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Имя",
+            "example": "Иван",
+            "maxLength": 70
+          },
+          "surname": {
+            "type": "string",
+            "description": "Фамилия",
+            "example": "Иванов",
+            "maxLength": 70
+          }
+        },
+        "description": "Получаемый объект банковской карты для пользователя"
+      },
+      "ApiError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Сообщение об ошибке"
+          },
+          "status": {
+            "type": "string",
+            "description": "Код статуса HTTP",
+            "example": "NOT_FOUND",
+            "enum": [
+              "BAD_REQUEST",
+              "FORBIDDEN",
+              "NOT_FOUND",
+              "CONFLICT"
+            ]
+          },
+          "time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Временная метка ошибки",
+            "example": "2024-03-11T15:52:38.2953307"
+          }
+        },
+        "required": [
+          "message",
+          "status",
+          "time"
+        ],
+        "description": "Ошибка, возникающая при обращении к API"
+      },
+      "FieldError": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "Поле, в котором возникла ошибка валидации входящих данных",
+            "example": "name"
+          },
+          "message": {
+            "type": "string",
+            "description": "Сообщение об ошибке валидации входящих данных",
+            "example": "Имя должно быть заполнено"
+          }
+        },
+        "required": [
+          "field",
+          "message"
+        ],
+        "description": "Ошибка валидации поля"
+      },
+      "ErrorDetails": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Тип ошибки",
+            "example": "Bad Request"
+          },
+          "message": {
+            "type": "string",
+            "description": "Сообщение об ошибке",
+            "example": "Ошибка валидации данных"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FieldError"
+            },
+            "description": "Список ошибок валидации полей"
+          },
+          "status": {
+            "type": "integer",
+            "description": "Код статуса HTTP",
+            "example": 400
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Временная метка ошибки",
+            "example": "2024-03-11T15:52:38.2953307"
+          }
+        }
+      }
+    }
+  }
+}

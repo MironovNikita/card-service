@@ -1,0 +1,35 @@
+version: '3.1'
+services:
+  bank-service:
+    build: ./bank-service
+    image: bank_service_image
+    container_name: bank_service_container
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    depends_on:
+      - bank-DB
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://bank-DB:5432/bankDB
+      NOTIFICATION_SERVICE_URL: http://notification-service:8081/
+
+  bank-DB:
+    image: postgres:15-alpine
+    container_name: bank_DB_container
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: bankDB
+      POSTGRES_USER: bank
+      POSTGRES_PASSWORD: card2024
+
+  notification-service:
+    build: ./notification-service
+    image: notification_service_image
+    container_name: notification_service_container
+    restart: on-failure
+    ports:
+      - "8081:8081"
+    depends_on:
+      - bank-service
+
