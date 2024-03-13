@@ -71,7 +71,11 @@
 
 В целом схема работы с данными пользователя выглядит следующим образом:
 
-![userData](https://github.com/MironovNikita/card-service/blob/main/res/bank/userData.png)
+<p align="center">
+
+  <img src="https://github.com/MironovNikita/card-service/blob/main/res/bank/userData.png">
+
+</p>
 
 В конечном итоге записи пользователей в базе данных выглядят следующим образом:
 
@@ -179,7 +183,11 @@
 
 В целом схема работы пользователя с банковскими картами выглядит следующим образом:
 
-![cardData](https://github.com/MironovNikita/card-service/blob/main/res/bank/cardData.png)
+<p align="center">
+
+  <img src="https://github.com/MironovNikita/card-service/blob/main/res/bank/cardData.png">
+
+</p>
 
 В конечном итоге записи банковских карт в базе данных выглядят следующим образом:
 
@@ -222,28 +230,46 @@
 Так как классы, отвечающие за отправку email-уведомлений находятся в другом модуле, взаимодействие между модулями осуществляется посредством [**WebClientService**](https://github.com/MironovNikita/card-service/blob/main/bank-service/src/main/java/org/application/client/WebClientService.java). Данный класс представляет собой клиент, с помощью которого направляются запросы по url-адресу модуля уведомлений.
 
 Пример уведомления создания пользователя:
+<p align="center">
 
-![createUserEmail](https://github.com/MironovNikita/card-service/blob/main/res/notification/createUserEmail.png)
+  <img src="https://github.com/MironovNikita/card-service/blob/main/res/notification/createUserEmail.png">
+
+</p>
 
 Пример уведомления обновления данных пользователя:
+<p align="center">
 
-![updateUserEmail](https://github.com/MironovNikita/card-service/blob/main/res/notification/updateUserEmail.png)
+  <img src="https://github.com/MironovNikita/card-service/blob/main/res/notification/updateUserEmail.png">
+
+</p>
 
 Пример открытия карты пользователя:
+<p align="center">
 
-![openCardEmail](https://github.com/MironovNikita/card-service/blob/main/res/notification/openCardEmail.png)
+  <img src="https://github.com/MironovNikita/card-service/blob/main/res/notification/openCardEmail.png">
+
+</p>
 
 Пример закрытия карты пользователя:
+<p align="center">
 
-![closeCardEmail](https://github.com/MironovNikita/card-service/blob/main/res/notification/closeCardEmail.png)
+  <img src="https://github.com/MironovNikita/card-service/blob/main/res/notification/closeCardEmail.png">
+
+</p>
 
 Пример уведомления о скором окончании срока действия карты:
+<p align="center">
 
-![soonCardEmail](https://github.com/MironovNikita/card-service/blob/main/res/notification/soonCardEmail.png)
+  <img src="https://github.com/MironovNikita/card-service/blob/main/res/notification/soonCardEmail.png">
+
+</p>
 
 Пример уведомления о перевыпуске карты:
+<p align="center">
 
-![reissueCardEmail1](https://github.com/MironovNikita/card-service/blob/main/res/notification/reissueCardEmail1.png)
+  <img src="https://github.com/MironovNikita/card-service/blob/main/res/notification/reissueCardEmail1.png">
+
+</p>
 
 ### 📬 Notification-service 📩
 Данный модуль работает с отправкой email-уведомлений.
@@ -277,16 +303,25 @@ API для работы с уведомлениями по email выглядя�
 Дополнительно для тестирования приложения были созданы Postman-тесты. Они предназначены для автоматизации проверки веб-сервисов и API. Они используются для уверенности в том, что веб-сервисы возвращают ожидаемые результаты и работают правильно в различных сценариях. 
 
 Тесты пользовательского функционала выглядят следующим образом:
+<p align="center">
 
-![userPostman](https://github.com/MironovNikita/card-service/blob/main/res/userPostman.png)
+  <img src="https://github.com/MironovNikita/card-service/blob/main/res/userPostman.png">
+
+</p>
 
 Тесты функционала банковских карт выглядят следующим образом:
+<p align="center">
 
-![cardPostman](https://github.com/MironovNikita/card-service/blob/main/res/cardPostman.png)
+  <img src="https://github.com/MironovNikita/card-service/blob/main/res/cardPostman.png">
+
+</p>
 
 Тесты функционала отправки email-уведомлений выглядят следующим образом:
+<p align="center">
 
-![emailPostman](https://github.com/MironovNikita/card-service/blob/main/res/emailPostman.png)
+  <img src="https://github.com/MironovNikita/card-service/blob/main/res/emailPostman.png">
+
+</p>
 
 Пример тестов для запроса по созданию пользователя:
 ```java
