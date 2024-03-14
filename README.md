@@ -1,6 +1,8 @@
 
 <p align="center">
-  <img width="128" height="128" src="https://github.com/MironovNikita/card-service/blob/main/res/logo.png" alt="logo">
+
+  <img width="128" height="128" src="https://github.com/MironovNikita/card-service/blob/main/res/logo.png">
+
 </p>
 
 # 💳 Card Service
@@ -50,9 +52,7 @@
 
 Пользовательское API выглядит следующим образом:
 
-<p align="center">
-  <img width="1493" height="307" src="https://github.com/MironovNikita/card-service/blob/main/res/bank/userAPI.png" alt="userAPI">
-</p>
+![userAPI](https://github.com/MironovNikita/card-service/blob/main/res/bank/userAPI.png)
 
 Подробнее с API можно ознакомиться в [**документации**](https://github.com/MironovNikita/card-service/blob/main/documentation/swagger/bank-service-spec.json) Swagger.
 
